@@ -53,6 +53,6 @@ module.exports = {
   commonAfterEach,
   commonAfterAll,
   testJobIds,
-  u1Token,
-  adminToken
+  adminToken,
+  u1Token
 };
