@@ -64,7 +64,6 @@ class User {
            WHERE username = $1`,
         [username],
     );
-    // console.log(`dupe: ${duplicateCheck}`);
 
     if (duplicateCheck.rows[0]) {
       throw new BadRequestError(`Duplicate username: ${username}`);

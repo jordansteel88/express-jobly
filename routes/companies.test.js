@@ -32,7 +32,6 @@ describe("POST /companies", function () {
   };
 
   test("admin only", async function () {
-    console.log(`admin token: ${adminToken}`);
 
     const resp = await request(app)
         .post("/companies")

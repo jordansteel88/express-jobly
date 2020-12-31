@@ -17,7 +17,6 @@ class Job {
    * */
 
   static async create({ title, salary, equity, companyHandle }) {
-    // console.log(`title: ${title}`);
     const result = await db.query(
           `INSERT INTO jobs
              (title, salary, equity, company_handle)
@@ -104,7 +103,6 @@ class Job {
     );
 
     const job = jobRes.rows[0];
-    // console.log(`job: ${job}`);
 
     if (!job) throw new NotFoundError(`No job: ${job}`);
 
