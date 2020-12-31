@@ -86,6 +86,8 @@ async function commonBeforeAll() {
     salary: 30000,
     companyHandle: "c3" 
   })).id;
+
+  await User.apply("u1", testJobIds[0]);
 }
 
 async function commonBeforeEach() {

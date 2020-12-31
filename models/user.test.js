@@ -12,6 +12,7 @@ const {
   commonBeforeEach,
   commonAfterEach,
   commonAfterAll,
+  testJobIds,
 } = require("../_testCommon");
 
 beforeAll(commonBeforeAll);
@@ -147,6 +148,7 @@ describe("get", function () {
       lastName: "U1L",
       email: "user1@user.com",
       isAdmin: false,
+      jobs: [testJobIds[0]]
     });
   });
 

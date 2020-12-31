@@ -25,7 +25,7 @@ const router = express.Router();
  * This returns the newly created user and an authentication token for them:
  *  {user: { username, firstName, lastName, email, isAdmin }, token }
  *
- * Authorization required: login
+ * Authorization required: admin
  **/
 
 router.post("/", ensureAdmin, async function (req, res, next) {
@@ -49,7 +49,7 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  *
  * Returns list of all users.
  *
- * Authorization required: login
+ * Authorization required: admin
  **/
 
 router.get("/", ensureAdmin, async function (req, res, next) {
@@ -66,7 +66,7 @@ router.get("/", ensureAdmin, async function (req, res, next) {
  *
  * Returns { username, firstName, lastName, isAdmin }
  *
- * Authorization required: login
+ * Authorization required: admin or matching login
  **/
 
 router.get("/:username", ensureAuthorized, async function (req, res, next) {
@@ -86,7 +86,7 @@ router.get("/:username", ensureAuthorized, async function (req, res, next) {
  *
  * Returns { username, firstName, lastName, email, isAdmin }
  *
- * Authorization required: login
+ * Authorization required: admin or matching login
  **/
 
 router.patch("/:username", ensureAuthorized, async function (req, res, next) {
@@ -107,13 +107,30 @@ router.patch("/:username", ensureAuthorized, async function (req, res, next) {
 
 /** DELETE /[username]  =>  { deleted: username }
  *
- * Authorization required: login
+ * Authorization required: admin or matching login
  **/
 
 router.delete("/:username", ensureAuthorized, async function (req, res, next) {
   try {
     await User.remove(req.params.username);
     return res.json({ deleted: req.params.username });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+/** POST /[username]/jobs/[id]  { state } => { application }
+ *
+ * Returns {"applied": jobId}
+ *
+ * Authorization required: admin or matching login
+ * */
+
+router.post("/:username/jobs/:id", ensureAuthorized, async function (req, res, next) {
+  try {
+    const jobId = +req.params.id;
+    await User.apply(req.params.username, jobId);
+    return res.json({ applied: jobId });
   } catch (err) {
     return next(err);
   }
